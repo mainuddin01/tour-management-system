@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+<script type="text/javascript">
+{% block jquery %}
+
+  $(document).on('click', '.confirm-delete', function(){
+    return confirm('Are you sure you want to delete this?');
+  })
+
+{% endblock %}
+</script>
+
+{% block content %}
+
+    <div class="header-section">
+        <div class="overlay">
+          <div class="container">
+            <div class="header-content text-left">
+              <div class="row">
+                <div class="col-md-6">
+                  {% if request.user.is_authenticated %}
+                    <h1>Welcome! {{ request.user.username }}</h1>
+                    {% if recent_tour.start and recent_tour.end %}
+                      <h4>Recently you've travelled to {{ recent_tour.tour_location }}. What about your next tour?</h4>
+                      <a id="new-tour" class="btn btn-primary btn-lg" href="#" role="button" data-toggle="modal" data-target="#myModal">New Tour +</a>
+                      <a class="btn btn-success btn-lg" href="{% url 'tourapp:tour_list' %}" role="button">Previous Tour</a>
+                    {% elif recent_tour.start and not recent_tour.end %}
+                      <h4>You're now enjoying {{ recent_tour.tour_location }} tour.</h4>
+                      <a class="btn btn-primary btn-lg" href="{% url 'tour_app:tour_detail' pk=recent_tour.pk %}" role="button">Tour Details</a>
+                      <a href="{% url 'tourapp:tour_end' pk=recent_tour.pk %}" id="end-tour" class="btn btn-success btn-lg" role="button">End Tour</a>
+                      <a id="new-tour" style="display: none;" class="btn btn-primary btn-lg" href="#" role="button" data-toggle="modal" data-target="#myModal">New Tour +</a>
+                    {% elif not recent_tour.start and not recent_tour.end %}
+                      <h4>You're going to {{ recent_tour.tour_location }} on {{ recent_tour.start_date }}</h4>
+                      <a class="btn btn-primary btn-lg" href="{% url 'tour_app:tour_detail' pk=recent_tour.pk %}" role="button">Tour Details</a>
+                      <a href="{% url 'tourapp:tour_start' pk=recent_tour.pk %}" id="start-tour" class="btn btn-success btn-lg" role="button">Start Tour</a>
+                    {% endif %}
+                  {% else %}
+                    <h1>Welcome!</h1>
+                    <h4>How do you do user. What about your next tour?</h4>
+                    <a id="new-tour" class="btn btn-primary btn-lg" href="#" role="button" data-toggle="modal" data-target="#myModal">New Tour +</a>
+                    <a class="btn btn-success btn-lg" href="#" role="button">Previous Tour</a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+    {% if request.user.is_authenticated %}
+      {% include 'online-index.html' %}
+    {% else %}
+      {% include 'offline-index.html' %}
+    {% endif %}
+
+{% endblock %}

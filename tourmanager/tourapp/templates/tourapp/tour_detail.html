@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="container">
+    <div class="tour-details">
+      <h3>{{ object.tour_location }}</h3>
+      <h4>Budget: {{ object.total_budget }}</h4>
+      <h5>Start Date: {{ object.start_date }}</h5>
+      <h5>End Date: {{ object.end_date }}</h5>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,80 @@
+{% load static %}
+
+<div class="main-content">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-7">
+
+        <div class="tour-list">
+          <div class="tour-header">
+            <div class="row">
+              <div class="col-xs-6">
+                <h3>Tour Expense List</h3>
+              </div>
+              <div class="col-xs-6">
+                <h3 class="pull-right">Filter by:
+                  <small>
+                    <select class="" name="">
+                      <option value="">Recent</option>
+                      <option value="">Oldest</option>
+                      <option value="">Most Spent</option>
+                      <option value="">Least Spent</option>
+                    </select>
+                  </small>
+                </h3>
+              </div>
+            </div>
+          </div>
+          <div class="expense-list">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ expense_form_set.management_form }}
+                {% for form in expense_form_set %}
+                {% if not form.instance.spent_on %}
+                  <div class="expense-item text-center">
+                    <a href="#" id="expense-create" role="button" data-toggle="modal" data-target="#expenseEModal{{ form.instance.id }}"><span class="glyphicon glyphicon-plus"></span></a>
+                  </div>
+                {% else %}
+                  <div class="expense-item">
+                      <div class="row">
+                        <div class="col-xs-8">
+                          <h3><a href="{{ form.instance.get_absolute_url }}">{{ form.instance.spent_on}}</a></h3>
+                          <p class="expense-description">{{ form.instance.description }}</p>
+                        </div>
+                        <div class="col-xs-4 text-right">
+                          <div class="special-info">
+                            <h5 class="expense-price">{{ form.instance.amount }} <small>BDT</small></h5>
+                            <p class="entry-time">{{ form.instance.spent_time }}</p>
+                            <p><a href="#" id="expense-edit" class="btn btn-warning" role="button" data-toggle="modal" data-target="#expenseEModal{{ form.instance.id }}">Edit</a>
+                              <a href="{% url 'tourapp:expense_delete' pk=form.instance.tour.id id=form.instance.id %}" class="btn btn-danger confirm-delete" role="button">Delete</a></p>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                {% endif %}
+                  {% include 'tourapp/component/expense_form.html' %}
+                {% endfor %}
+              </form>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="col-sm-4 statistic-wrapper col-sm-offset-1">
+        <div class="tour-statistic">
+          <h3>Statistical Diagram</h3>
+          <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+              <canvas id="myChart" width="400" height="400"></canvas>
+              <div class="budget-statistic">
+                <p>Total Budget: {{ recent_tour.total_budget }} <small>BDT</small></p>
+                <p>Already Spent: {{ recent_tour.get_total_expenses }} <small>BDT</small></p>
+                <p>Remaining: {% if not recent_tour.get_remaining_balance <= 0 %}{{ recent_tour.get_remaining_balance }}{% else %}0.00{% endif %} <small>BDT</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

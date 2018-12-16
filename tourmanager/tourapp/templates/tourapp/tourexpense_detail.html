@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="container">
+    <div class="tour-details">
+      <h3>{{ object.spent_on }}</h3>
+      <h4>Spent: {{ object.amount }}</h4>
+      <p>Reson behind spent: {{ object.description }}</p>
+      <h5>Spent Time: {{ object.spent_time }}</h5>
+      <h5>Last Update: {{ object.updated_at }}</h5>
+    </div>
+  </div>
+
+{% endblock %}

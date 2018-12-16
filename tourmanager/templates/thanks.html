@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+<style media="screen">
+  {% block style %}
+    body {
+      background: rgb(75, 192, 192);
+      color: #fff;
+    }
+    .thanks-text.text-center {
+    	border: 3px solid;
+    	max-width: 700px;
+    	margin: 20% auto;
+    	padding: 30px;
+    	box-shadow: 0px 0px 18px -10px black;
+    }
+  {% endblock %}
+</style>
+
+{% block content %}
+  <div class="container">
+    <h1 class="thanks-text text-center">Thanks for visiting. Come back soon.</h1>
+  </div>
+
+{% endblock %}

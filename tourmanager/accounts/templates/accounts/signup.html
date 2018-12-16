@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+<style media="screen">
+  {% block style %}
+    body {
+      background: rgb(75, 192, 192);
+    }
+  {% endblock %}
+</style>
+
+{% block content %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="account-form signup-form">
+          <h1>SIGN UP</h1>
+          <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <p><input type="submit" class="btn btn-primary btn-block" value="Sign Up"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
