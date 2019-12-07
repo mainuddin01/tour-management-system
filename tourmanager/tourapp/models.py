@@ -30,8 +30,9 @@ class Tour(models.Model):
         return total_expense
 
     def get_remaining_balance(self):
-        remaining_balance = self.total_budget - self.get_total_expenses()
-        return remaining_balance
+        if self.get_total_expenses():
+            remaining_balance = self.total_budget - self.get_total_expenses()
+            return remaining_balance
 
     def get_absolute_url(self):
         return reverse('tourapp:tour_detail', kwargs={"pk": self.pk})
